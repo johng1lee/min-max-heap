@@ -20,8 +20,11 @@ public class MinMaxHeap{
 	    root = elementNode;
 	    heapSize++;
 	}
-	else{
+	else if(){
 	    
+	}
+	else{
+	    int levelIndex = heapSize + 1;
 	}
     }
     public void buildMinMaxHeap(int[] initialValues){
@@ -51,7 +54,6 @@ public class MinMaxHeap{
 		else{
 		    System.out.print(", ");
 		}
-		
 		if(evaluateNode.left != null){
 		    nodeStack.push(evaluateNode.left);
 		}
