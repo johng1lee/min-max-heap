@@ -37,44 +37,45 @@ public class MinMaxHeap{
 	else{
 	    int parent = addPosition/2;
 	    int gParent = addPosition/4;
+	    heap.add(0);
 	    if(currentHeapLevel % 2 == 0){ //even
 		if(heap.get(parent) < element){
 		    //swap current spot with parent 
 		    //recursively call insert with new current spot
-		    heap.add(heap.remove(parent));
+		    heap.set(addPosition,heap.get(parent));
 		    addPosition = addPosition/2;
 		    insertHelper(addPosition,element);
 		}
 		else if(heap.get(gParent) > element){
 		    //swap current spot with gParent
 		    //recursively call insert with new current spot
-		    heap.add(heap.remove(gParent));
+		    heap.set(addPosition,heap.get(gParent));
 		    addPosition = addPosition/4;
 		    insertHelper(addPosition,element);
 		}
 		else{
 		    //insert normally
-		    heap.add(element);
+		    heap.set(addPosition,element);
 		}
 	    }
 	    else{ //odd
 		if(heap.get(parent) > element){
 		    //swap current spot with parent 
 		    //recursively call insert with new current spot
-		    heap.add(heap.remove(parent));
+		    heap.set(addPosition,heap.get(parent));
 		    addPosition = addPosition/2;
 		    insertHelper(addPosition,element);
 		}
 		else if(heap.get(gParent) < element){
 		    //swap current spot with gParent
 		    //recursively call insert with new current spot
-		    heap.add(heap.remove(gParent));
+		    heap.set(addPosition, heap.get(gParent));
 		    addPosition = addPosition/4;
 		    insertHelper(addPosition,element);
 		}
 		else{
 		    //insert normally
-		    heap.add(element);
+		    heap.set(addPosition,element);
 		}
 	    }
 	}
@@ -91,6 +92,7 @@ public class MinMaxHeap{
     public void buildMinMaxHeap(int[] initialValues){
 	for(int i=0; i<initialValues.length; i++){
 	    insert(initialValues[i]);
+	    printLevels();
 	}
     }
     public int deleteMin(){return 0;}
@@ -98,13 +100,15 @@ public class MinMaxHeap{
     public void printMinMaxHeap(){printLevels();}
     public void printLevels(){
 	int counter = 1;
-	long twoExp = 1;
-	long limit = 1;
+	long twoExp = 2;
+	long limit = 3;
 	if(heapSize < 1){return;}
 	else{
-	    System.out.print(heap.get(counter));
+	    System.out.println(heap.get(counter));
 	    counter++;
 	    while(counter <= heapSize){
+		System.out.print(heap.get(counter));
+		counter++;
 		if(counter > limit){
 		    System.out.println("");
 		    twoExp = twoExp * 2;
@@ -113,8 +117,6 @@ public class MinMaxHeap{
 		else{
 		    System.out.print(", ");
 		}
-		System.out.print(heap.get(counter));
-		counter++;
 	    }
 	}
 	System.out.println("");
@@ -126,7 +128,8 @@ public class MinMaxHeap{
 	    return 0;
 	}
 	else{
-	    System.out.println(heap.get(1));
+	    
+	    System.out.printf("The minimum is %d\n",heap.get(1));
 	    return heap.get(1);
 	}
     }
@@ -136,6 +139,7 @@ public class MinMaxHeap{
 	    return 0;
 	}
 	else if(heapSize < 3){
+	    System.out.printf("The maximum is %d\n",heap.get(2));
 	    System.out.println(heap.get(2));
 	    return heap.get(2);
 	}
@@ -143,11 +147,11 @@ public class MinMaxHeap{
 	    int left = heap.get(2);
 	    int right = heap.get(3);
 	    if(left < right){
-		System.out.println(right);
+	    System.out.printf("The maximum is %d\n",right);
 		return right;
 	    }
 	    else{
-		System.out.println(left);
+	    System.out.printf("The maximum is %d\n",left);
 		return left;
 	    }
 	}
