@@ -98,11 +98,41 @@ public class MinMaxHeap{
 	if(heapSize<1){
 	    System.out.println("Heap doesn't exist");
 	}
+	int deletedItem = heap.get(1);
+	System.out.println("Deleted " + deletedItem);
 	percolateDown(1);
+	return deletedItem;
+
     }
     private void percolateDown(int vacantPosition){
 	int child;
 	int tmp = heap.remove(heap.size()-1);
+	int minimumValue;
+	heapSize--;
+	while(vacantPosition*4 <= heapSize){
+	    child = vacantPosition*4;
+	    if(child != heapSize){
+		minimumValue = heap.get(child);
+		int startIndex = child;
+		//Finish this part up. Account for 4 children.
+		for(int i = startIndex; i<=startIndex+2; i++){
+		    if(i+1 <= heapSize){
+			if(minimumValue>heap.get(i+1)){
+			    minimumValue = heap.get(i+1);
+			    child++;
+			}
+		    }
+		}
+	    }
+	    if(heap.get(child).compareTo(tmp)<0){
+		heap.set(vacantPosition,heap.get(child));
+	    }
+	    else{
+		break;
+	    }
+	    vacantPosition = child;
+	}
+	heap.set(vacantPosition, tmp);
     }
     public int deleteMax(){return 0;}
     public void printMinMaxHeap(){
