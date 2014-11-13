@@ -9,6 +9,7 @@ public class MinMaxHeapTester{
 	    Scanner inputFileScanner = new Scanner(new File(args[0]));
 	    while(inputFileScanner.hasNextLine()){
 		instruction = inputFileScanner.nextLine();
+		System.out.println("\n###" + instruction + "###\n");
 		int instructionLength = instruction.length();
 		if(instruction.contains("buildMinMaxHeap")){
 		    String[] heapInitialValuesString = instruction.substring(
@@ -41,7 +42,7 @@ public class MinMaxHeapTester{
 		    heap.deleteMax();
 		}
 		else if(instruction.contains("printMinMaxHeap")){
-		    heap.printLevels();
+		    heap.printMinMaxHeap();
 		}
 	    }
 	}

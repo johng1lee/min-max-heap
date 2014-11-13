@@ -92,13 +92,20 @@ public class MinMaxHeap{
     public void buildMinMaxHeap(int[] initialValues){
 	for(int i=0; i<initialValues.length; i++){
 	    insert(initialValues[i]);
-	    printLevels();
 	}
     }
-    public int deleteMin(){return 0;}
+    public int deleteMin(){
+	if(heapSize<1){
+	    System.out.println("Heap doesn't exist");
+	}
+	percolateDown(1);
+    }
+    private void percolateDown(int vacantPosition){
+	int child;
+	int tmp = heap.remove(heap.size()-1);
+    }
     public int deleteMax(){return 0;}
-    public void printMinMaxHeap(){printLevels();}
-    public void printLevels(){
+    public void printMinMaxHeap(){
 	int counter = 1;
 	long twoExp = 2;
 	long limit = 3;
