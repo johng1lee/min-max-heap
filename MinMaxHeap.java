@@ -26,8 +26,25 @@ public class MinMaxHeap{
 	int currentHeapLevel = getHeapLevel(addPosition);
 	//recursive function to complete the insert function
 	if(currentHeapLevel < 2){
-	    if(heapSize<4){
-		heap.add(element);
+	    if(heapSize<3){
+		if(heapSize == 1){
+		    if(heap.get(1)>element){
+			heap.add(heap.get(1));
+			heap.set(1,element);
+		    }
+		    else{
+			heap.add(element);
+		    }
+		}
+		else{
+		    if(heap.get(1)>element && heap.get(2) > element){
+			heap.add(heap.get(1));
+			heap.set(1,element);
+		    }
+		    else{
+			heap.add(element);
+		    }
+		}
 	    }
 	    else{
 		heap.set(addPosition, element);
