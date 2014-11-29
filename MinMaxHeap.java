@@ -101,46 +101,196 @@ public class MinMaxHeap{
 	}
     }
     public int deleteMin(){
+	int deletedItem=0;
 	if(heapSize<1){
 	    System.out.println("Heap doesn't exist");
+	    return deletedItem;
 	}
-	int deletedItem = heap.get(1);
-	System.out.println("Deleted " + deletedItem);
-	percolateDown(1);
-	return deletedItem;
+	else if(heapSize < 2){
+	    deletedItem = heap.remove(1);
+	    System.out.println("Deleted " + deletedItem);
+	    System.out.println(heapSize);
+	    heapSize--;
+	    return deletedItem;
+	}
+	else{
+	    deletedItem = heap.get(1);
+	    System.out.println("Deleted " + deletedItem);
+	    percolateDownMin(1);
+	    return deletedItem;
+	}
 
     }
-    private void percolateDown(int vacantPosition){
-	int child;
-	int tmp = heap.remove(heap.size()-1);
+    private void percolateDownMin(int vacantPosition){ // FINISH THIS
+	int gChild;
+	int tmp = heap.remove(heapSize);
 	int minimumValue;
+	int minimumIndex;
+	int startIndex;
+	int endIndex;
+	int parent;
+	int swapVal;
 	heapSize--;
 	while(vacantPosition*4 <= heapSize){
-	    child = vacantPosition*4;
-	    if(child != heapSize){
-		minimumValue = heap.get(child);
-		int startIndex = child;
-		//Finish this part up. Account for 4 children.
-		for(int i = startIndex; i<=startIndex+2; i++){
-		    if(i+1 <= heapSize){
-			if(minimumValue>heap.get(i+1)){
-			    minimumValue = heap.get(i+1);
-			    child++;
-			}
+	    gChild = vacantPosition*4;
+	    if(gChild != heapSize){
+		minimumIndex = gChild;
+		minimumValue = heap.get(gChild);
+		endIndex = gChild+3;
+		while(gChild <= endIndex && gChild <= heapSize){
+		    if (heap.get(gChild) < minimumValue){
+			minimumIndex = gChild;
+			minimumValue = heap.get(gChild);
 		    }
+		    gChild++;
+		}
+		gChild = minimumIndex;
+	    }
+	    if(heap.get(gChild).compareTo(tmp)<0){
+		heap.set(vacantPosition,heap.get(gChild));
+		//		printMinMaxHeap(); // print!
+		vacantPosition = gChild;
+		parent = gChild/2;
+		swapVal = heap.get(parent);
+		if(swapVal<tmp){
+		    heap.set(parent,tmp);
+		    //		    printMinMaxHeap(); //PRINT
+		    tmp = swapVal;
 		}
 	    }
-	    if(heap.get(child).compareTo(tmp)<0){
-		heap.set(vacantPosition,heap.get(child));
-	    }
 	    else{
+		heap.set(vacantPosition, tmp);
+		//		printMinMaxHeap(); //PRINT
 		break;
 	    }
-	    vacantPosition = child;
+	    vacantPosition = gChild;
 	}
 	heap.set(vacantPosition, tmp);
+	//	printMinMaxHeap(); //PRINT
+	if(vacantPosition*2 <= heapSize){
+	    int minChildIndex = vacantPosition*2;
+	    int minChild = heap.get(vacantPosition*2);
+	    if(minChildIndex+1 <= heapSize){
+		int testChild = heap.get(minChildIndex+1);
+		if(minChild > testChild){
+		    minChild = testChild;
+		    minChildIndex = minChildIndex+1;
+		}
+	    }
+	    if(heap.get(vacantPosition) > heap.get(minChildIndex)){
+		int swapChild = heap.get(vacantPosition);
+		heap.set(vacantPosition, minChild);
+		heap.set(minChildIndex, swapChild);
+		//		printMinMaxHeap(); //PRINT
+	    }
+	}
     }
-    public int deleteMax(){return 0;}
+
+    public int deleteMax(){
+	int deletedItem=0;
+	if(heapSize<1){
+	    System.out.println("Heap doesn't exist");
+	    return deletedItem;
+	}
+	else if(heapSize < 2){
+	    deletedItem = heap.remove(1);
+	    System.out.println("Deleted " + deletedItem);
+	    heapSize--;
+	    return deletedItem;
+	}
+	else if(heapSize < 3){
+	    deletedItem = heap.remove(2);
+	    System.out.println("Deleted " + deletedItem);
+	    heapSize--;
+	    return deletedItem;
+	}
+	else if(heapSize < 4){
+	    int lChild = heap.get(2);
+	    int rChild = heap.get(3);
+	    int root;
+	    root=lChild>rChild ?2:3;
+	    deletedItem = heap.remove(root);
+	    heapSize--;
+	    System.out.println("Deleted " + deletedItem);
+	    return deletedItem;
+	}
+	else{
+	    int lChild = heap.get(2);
+	    int rChild = heap.get(3);
+	    int root;
+	    root=lChild>rChild ?2:3;
+	    deletedItem = heap.get(root);
+	    System.out.println("Deleted " + deletedItem);
+	    percolateDownMax(root);
+	    return deletedItem;
+	}
+    }
+    private void percolateDownMax(int vacantPosition){ // FINISH THIS
+	int gChild;
+	int tmp = heap.remove(heapSize);
+	int maximumValue;
+	int maximumIndex;
+	int startIndex;
+	int endIndex;
+	int parent;
+	int swapVal;
+	heapSize--;
+	while(vacantPosition*4 <= heapSize){
+	    gChild = vacantPosition*4;
+	    if(gChild != heapSize){
+		maximumIndex = gChild;
+		maximumValue = heap.get(gChild);
+		endIndex = gChild+3;
+		while(gChild <= endIndex && gChild <= heapSize){
+
+		    if (heap.get(gChild) > maximumValue){
+			maximumIndex = gChild;
+			maximumValue = heap.get(gChild);
+		    }
+		    gChild++;
+		}
+		gChild = maximumIndex;
+	    }
+	    if(heap.get(gChild).compareTo(tmp)>0){
+		heap.set(vacantPosition,heap.get(gChild));
+		//		printMinMaxHeap(); // print!
+		vacantPosition = gChild;
+		parent = gChild/2;
+		swapVal = heap.get(parent);
+		if(swapVal>tmp){
+		    heap.set(parent,tmp);
+		    //		    printMinMaxHeap(); //PRINT
+		    tmp = swapVal;
+		}
+	    }
+	    else{
+		heap.set(vacantPosition, tmp);
+		//		printMinMaxHeap(); //PRINT
+		break;
+	    }
+	    vacantPosition = gChild;
+	}
+	heap.set(vacantPosition, tmp);
+	//	printMinMaxHeap(); //PRINT
+	if(vacantPosition*2 <= heapSize){
+	    int maxChildIndex = vacantPosition*2;
+	    int maxChild = heap.get(vacantPosition*2);
+	    if(maxChildIndex+1 <= heapSize){
+		int testChild = heap.get(maxChildIndex+1);
+		if(maxChild > testChild){
+		    maxChild = testChild;
+		    maxChildIndex = maxChildIndex+1;
+		}
+	    }
+	    if(heap.get(vacantPosition) < heap.get(maxChildIndex)){
+		int swapChild = heap.get(vacantPosition);
+		heap.set(vacantPosition, maxChild);
+		heap.set(maxChildIndex, swapChild);
+		//		printMinMaxHeap(); //PRINT
+	    }
+	}
+    }
+
     public void printMinMaxHeap(){
 	int counter = 1;
 	long twoExp = 2;
@@ -158,7 +308,7 @@ public class MinMaxHeap{
 		    limit = limit + twoExp;
 		}
 		else{
-		    System.out.print(", ");
+		    System.out.print(" ");
 		}
 	    }
 	}
@@ -199,4 +349,56 @@ public class MinMaxHeap{
 	    }
 	}
     }
+    public static void main(String[] args){
+	try{
+	    MinMaxHeap heap = new MinMaxHeap();
+	    String instruction = "";
+	    Scanner inputFileScanner = new Scanner(new File(args[0]));
+	    while(inputFileScanner.hasNextLine()){
+		instruction = inputFileScanner.nextLine();
+		//		System.out.print("\n###" + instruction + "###\n");
+		int instructionLength = instruction.length();
+		if(instruction.contains("buildMinMaxHeap")){
+		    String[] heapInitialValuesString = instruction.substring(
+									     instruction.indexOf(":")+1,
+									     instructionLength
+									     ).split(",");
+		    int heapInitialValuesLength = heapInitialValuesString.length;
+		    int[] heapInitialValuesInt = new int[heapInitialValuesLength];
+		    for(int i=0; i<heapInitialValuesLength; i++){
+			heapInitialValuesInt[i] = Integer.valueOf(heapInitialValuesString[i].trim());
+			// System.out.println(heapInitialValuesInt[i]);
+		    }
+		    heap.buildMinMaxHeap(heapInitialValuesInt);
+		}
+		else if(instruction.contains("peekMin")){
+		    heap.peekMin();
+		}
+		else if(instruction.contains("peekMax")){
+		    heap.peekMax();
+		}
+		else if(instruction.contains("insert")){
+		    instruction = instruction.substring(6,instructionLength).trim();
+		    int element = Integer.valueOf(instruction);
+		    heap.insert(element);
+		}
+		else if(instruction.contains("deleteMin")){
+		    heap.deleteMin();
+		}
+		else if(instruction.contains("deleteMax")){
+		    heap.deleteMax();
+		}
+		else if(instruction.contains("printMinMaxHeap")){
+		    heap.printMinMaxHeap();
+		}
+	    }
+	}
+	catch(FileNotFoundException fNFE){
+	    fNFE.printStackTrace();
+	}
+	catch(Exception e){
+	    e.printStackTrace();
+	}
+    }
+
 }
